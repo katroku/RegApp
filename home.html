@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="/socket.io/socket.io.js"></script>
+    <!--jquery must be loaded first to interpret jquery in app.js-->
+    <script src="node_modules/jquery-3.1.1.min.js"></script>
+    <script src="home.js"></script>
+
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="stylesheet" href="vendor/normalize.css" />
+    <link rel="stylesheet" href="vendor/milligram.min.css" />
+    <link rel="stylesheet" href="vendor/milligram.theme.blue.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic"
+    />
+  </head>
+  <body>
+    <!-- <div class="pwd">
+      <label>Password:</label>
+      <input id="pwd" type="password" />
+      <button id="enter">Enter</button>
+    </div> -->
+    <section class="currentIssues" style="display: block;">
+      <div><h1>Current Issues</h1></div>
+      <div style="float: inherit;">
+        <a href="addIssue.html">Add New Issue</a>
+      </div>
+      <div style="float: inherit;">
+        <a onclick="viewAll()" id="viewAll">View All Issues</a>
+        <a onclick="viewCurrent()" id="viewCurrent" style="display: none;"
+          >View Current Issues</a
+        >
+      </div>
+      <table
+        id="table"
+        style="text-align:left; padding-left: 10%; padding-right: 10%;"
+      >
+        <tr>
+          <th>TOPIC</th>
+          <th>STUDENT NAME</th>
+          <th>TIME SUBMITTED</th>
+        </tr>
+      </table>
+    </section>
+  </body>
+</html>
