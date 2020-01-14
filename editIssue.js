@@ -7,7 +7,8 @@
     let statusId = "inProgress";
     let issueTemp;
     let issueId;
-    // socket.emit("hey", "this is working");
+
+    socket.emit("editor opened");
     socket.on("openIssueHtml", function(issue) {
       issueTemp = issue.issue;
       issueId = issue.id;
@@ -16,6 +17,9 @@
       for (var key in issueTemp) {
         if (`${key}`) {
           console.log(key);
+          if (key == "statusId") {
+            $(`${"#" + issueTemp[key]}`).prop("checked", true);
+          }
           $(`${"#" + key}`).val(`${issueTemp[key]}`); //OK
         }
       }
@@ -50,9 +54,11 @@
         statusId: $('input[name="status"]:checked').val() || statusId,
         time: issueTemp.time
       };
+      if (issueId) {
+        console.log(issue);
+        socket.emit("edit file", { issue, issueId });
+      }
 
-      console.log(issue);
-      socket.emit("edit file", { issue, issueId });
       // Calculate number of issues
 
       // Update the wish list and the sum DOM elements

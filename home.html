@@ -16,29 +16,62 @@
     />
   </head>
   <body>
-    <!-- <div class="pwd">
+    <div class="pwd" style="display: none;">
       <label>Password:</label>
       <input id="pwd" type="password" />
       <button id="enter">Enter</button>
-    </div> -->
-    <section class="currentIssues" style="display: block;">
+    </div>
+    <section class="currentIssues" style="display: none;">
       <div><h1>Current Issues</h1></div>
-      <div style="float: inherit;">
-        <a href="addIssue.html">Add New Issue</a>
-      </div>
-      <div style="float: inherit;">
-        <a onclick="viewAll()" id="viewAll">View All Issues</a>
-        <a onclick="viewCurrent()" id="viewCurrent" style="display: none;"
-          >View Current Issues</a
-        >
-      </div>
+      <table style="padding-left: 10%; padding-right: 10%;">
+        <tr>
+          <td style="text-align:center;">
+            <a href="addIssue.html" target="_blank">Add New Issue</a>
+          </td>
+          <td style="text-align:center;">
+            <a onclick="viewAll()" id="viewAll">View All Issues</a>
+            <a onclick="viewCurrent()" id="viewCurrent" style="display: none;"
+              >View Current Issues</a
+            >
+          </td>
+          <td style="text-align:center;">
+            <a onclick="displayFind()">Find Issue</a>
+          </td>
+        </tr>
+      </table>
+
+      <form id="find" style="display: none;">
+        <input name="topic" id="topic" type="text" placeholder="Topic" />
+        <input
+          name="studentId"
+          id="studentId"
+          type="number"
+          placeholder="Student ID"
+        />
+        <input
+          name="firstName"
+          id="firstName"
+          type="text"
+          placeholder="First Name"
+        />
+        <input
+          name="lastName"
+          id="lastName"
+          type="text"
+          placeholder="Last Name"
+        />
+        <input name="search" id="search" type="button" value="SEARCH" />
+      </form>
+
       <table
         id="table"
         style="text-align:left; padding-left: 10%; padding-right: 10%;"
       >
         <tr>
+          <th>NO.</th>
           <th>TOPIC</th>
           <th>STUDENT NAME</th>
+          <th>STUDENT ID</th>
           <th>TIME SUBMITTED</th>
         </tr>
       </table>
