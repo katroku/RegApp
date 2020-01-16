@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <script src="/node_modules/jquery-3.1.1.min.js"></script>
+    <title><%= 'display'%></title>
+    <link rel="stylesheet" href="/css/app.css" />
+    <link rel="stylesheet" href="/vendor/normalize.css" />
+    <link rel="stylesheet" href="/vendor/milligram.min.css" />
+    <link rel="stylesheet" href="/vendor/milligram.theme.blue.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic"
+    />
+  </head>
+  <body>
+    <div class="wrapper flex-column">
+    <% for(var i = 0; i<filteredArr.length; i++){ %>
+      <table> 
+      <% for(var key in filteredArr[i]){ %>
+        <tr>
+        <td style="text-align: right;"><strong><%= key %> : </strong></td>
+        <td style="text-align: left;"><%= filteredArr[i][key] %></td>
+      </tr>
+    <%}%>
+  </table>
+    <%}%>
+</div>
+
+  </body>
+</html>

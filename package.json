@@ -1,9 +1,12 @@
 {
-  "name": "socket-chat-example",
+  "name": "RegApp",
   "version": "0.0.1",
   "description": "for registration officer",
+  "license": "MIT",
   "dependencies": {
+    "ejs": "^3.0.1",
     "express": "^4.15.2",
+    "jquery": "^3.4.1",
     "jsonwebtoken": "^8.5.1",
     "socket.io": "^2.3.0"
   }

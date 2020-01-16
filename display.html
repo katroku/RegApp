@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="/socket.io/socket.io.js"></script>
+    <!--jquery must be loaded first to interpret jquery in app.js-->
+    <script src="node_modules/jquery-3.1.1.min.js"></script>
+    <script src="display.js"></script>
+
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="stylesheet" href="vendor/normalize.css" />
+    <link rel="stylesheet" href="vendor/milligram.min.css" />
+    <link rel="stylesheet" href="vendor/milligram.theme.blue.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic"
+    />
+  </head>
+  <body>
+    <section class="edit-issues">
+      <h1>Edit issues</h1>
+      <div class="wrapper flex-column">
+        <label for="topic">Topic: </label>
+        <input name="topic" id="topic" type="text" placeholder="Topic" />
+
+        <label for="studentId">Student ID: </label>
+        <input
+          name="studentId"
+          id="studentId"
+          type="number"
+          placeholder="Student ID"
+        />
+
+        <label for="firstName">First Name: </label>
+        <input
+          name="firstName"
+          id="firstName"
+          type="text"
+          placeholder="First Name"
+        />
+
+        <label for="lastName">Last Name: </label>
+        <input
+          name="lastName"
+          id="lastName"
+          type="text"
+          placeholder="Last Name"
+        />
+
+        <label for="email">Email: </label>
+        <input name="email" id="email" type="text" placeholder="Email" />
+
+        <label>Issue Status:</label>
+        <div>
+          <input
+            type="radio"
+            name="status"
+            id="inProgress"
+            value="inProgress"
+          />
+          <span>In Progress</span>
+        </div>
+        <div>
+          <input type="radio" name="status" id="complete" value="complete" />
+          <span>Complete</span>
+        </div>
+        <!--<button id="butt">Button</button>-->
+
+        <label for="description">Issue Description: </label>
+        <textarea
+          rows="10"
+          cols="30"
+          name="description"
+          id="description"
+          type="text"
+          placeholder="Please write down issue description"
+          style="height: 10rem; text-align: justify;"
+        ></textarea>
+
+        <input class="edit" type="button" value="Edit" />
+        <input class="delete" type="button" value="Delete" />
+      </div>
+    </section>
+  </body>
+</html>
