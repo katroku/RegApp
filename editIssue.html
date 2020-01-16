@@ -4,6 +4,7 @@
     <script src="/socket.io/socket.io.js"></script>
     <!--jquery must be loaded first to interpret jquery in app.js-->
     <script src="node_modules/jquery-3.1.1.min.js"></script>
+    <script src="davidshimjs-qrcodejs/qrcode.js"></script>
     <script src="editIssue.js"></script>
 
     <link rel="stylesheet" href="css/app.css" />
@@ -46,6 +47,9 @@
           placeholder="Last Name"
         />
 
+        <label for="email">Email: </label>
+        <input name="email" id="email" type="text" placeholder="Email" />
+
         <label>Issue Status:</label>
         <div>
           <input
@@ -77,5 +81,8 @@
         <input class="delete" type="button" value="Delete" />
       </div>
     </section>
+    <div style="text-align: center">
+      <div id="qrcode" style="display: inline-block"></div>
+    </div>
   </body>
 </html>

@@ -3,13 +3,38 @@ var app = express();
 var http = require("http").createServer(app);
 var io = require("socket.io")(http);
 var fs = require("fs");
+var crypto = require("crypto");
+
+// //cipher
+// var mykey = crypto.createCipheriv(
+//   "aes-128-cbc",
+//   Buffer.alloc(16),
+//   Buffer.alloc(16)
+// );
+
+// var ciphertext = mykey.update("6031811421", "utf8", "base64");
+// ciphertext += mykey.final("base64"); //will allow key to display??
+// console.log(ciphertext);
+
+// //decipher
+// var mykey = crypto.createDecipheriv(
+//   "aes-128-cbc",
+//   Buffer.alloc(16),
+//   Buffer.alloc(16)
+// );
+
+// var plaintext = mykey.update(ciphertext, "base64", "utf8");
+// plaintext += mykey.final("utf8"); //will allow key to display??
+// console.log(plaintext);
 
 let issueTemp;
 let password = "a";
+let userIpId = [];
 let roomNo = 0;
 let homeRoomCount = [];
 //allow files to be available on server eg. app.js
 app.use(express.static("."));
+app.set("view engine", "ejs");
 
 app.get("/", function(req, res) {
   res.sendFile(__dirname + "/home.html");
@@ -22,6 +47,44 @@ app.get("/addIssueXXX", function(req, res) {
 
 app.get("/editIssue", function(req, res) {
   res.sendFile(__dirname + "/editIssue.html");
+});
+
+app.get("/display/:id", function(req, res) {
+  // //somehow also included display.js as req.params.id
+  // console.log(req.params.id); // OK
+  // console.log(req.ip);
+  // console.log(req.connection.remoteAddress);
+  // userIpId.push({
+  //   ip: req.ip || req.connection.remoteAddress,
+  //   id: req.params.id
+  // });
+  // console.log(userIpId);
+  // res.sendFile(__dirname + "/display.html");
+  var mykey = crypto.createDecipheriv(
+    "aes-128-cbc",
+    Buffer.alloc(16),
+    Buffer.alloc(16)
+  );
+
+  let stuId = mykey.update(req.params.id, "base64", "utf8");
+  stuId = studId + mykey.final("utf8"); //will allow key to display??
+  console.log(stuId);
+
+  let filteredArr;
+  fs.readFile("issues.json", "utf-8", (err, data) => {
+    console.log("read file"); // OK
+    if (err) throw err;
+    obj = JSON.parse(data);
+    filteredArr = obj.filter(ele => {
+      if (ele.studentId && ele.studentId == stuId) {
+        return true;
+      }
+    });
+    res.render("display", { filteredArr: filteredArr, id: [123] });
+  });
+  //just put html in here
+  //or use EJS with res.render()
+  //or send html file which sends to specific ip
 });
 
 var home = io.of("/home");
@@ -96,6 +159,18 @@ addIssue.on("connection", function(socket) {
     console.log("add issue page closed");
   });
 
+  socket.on("getCipher", stuId => {
+    var mykey = crypto.createCipheriv(
+      "aes-128-cbc",
+      Buffer.alloc(16),
+      Buffer.alloc(16)
+    );
+
+    var ciphertext = mykey.update(stuId, "utf8", "base64");
+    ciphertext += mykey.final("base64"); //will allow key to display??
+    socket.emit("cipher", ciphertext);
+  });
+
   socket.on("save file", function(issue) {
     // var readStream = fs.createReadStream("issues.json");
     // let chunk = "";
@@ -136,6 +211,19 @@ editIssue.on("connection", function(socket) {
       socket.join("roomEx");
     }
   });
+
+  socket.on("getCipher", stuId => {
+    var mykey = crypto.createCipheriv(
+      "aes-128-cbc",
+      Buffer.alloc(16),
+      Buffer.alloc(16)
+    );
+
+    var ciphertext = mykey.update(stuId, "utf8", "base64");
+    ciphertext += mykey.final("base64"); //will allow key to display??
+    socket.emit("cipher", ciphertext);
+  });
+
   socket.on("disconnect", function() {
     console.log("edit issue page closed");
   });
@@ -175,6 +263,39 @@ editIssue.on("connection", function(socket) {
     });
   });
 });
+
+// var display = io.of("/display");
+// display.on("connection", function(socket) {
+//   console.log("display page opened");
+//   console.log(socket.request.connection.remoteAddress);
+//   socket.on("myIP", ip => {
+//     let index = 0;
+//     let IpId = userIpId.filter((ele, i) => {
+//       if (ele.ip && ele.ip == ip) {
+//         index = i;
+//         return true;
+//       }
+//     });
+//     userIpId.splice(index);
+//     let reqId = IpId[0]["id"];
+//     let filteredArr;
+//     fs.readFile("issues.json", "utf-8", (err, data) => {
+//       console.log("read file"); // OK
+//       if (err) throw err;
+//       obj = JSON.parse(data);
+//       filteredArr = obj.filter(ele => {
+//         if (ele.studentId && ele.studentId == reqId) {
+//           return true;
+//         }
+//       });
+//     });
+//     socket.emit("idInfo", filteredArr);
+//   });
+
+//   socket.on("disconnect", function() {
+//     console.log("display page closed");
+//   });
+// });
 
 let port = process.env.PORT || 3000;
 // if (port == null || port == "") {

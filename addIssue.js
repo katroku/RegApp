@@ -5,7 +5,6 @@
   var socket = io.connect("/addIssue");
 
   $(function() {
-    let topic, studentId, firstName, lastName, description, time;
     let statusId = "inProgress";
 
     $(".add-issues .add").on("click", function() {
@@ -15,6 +14,7 @@
         studentId: $("#studentId").val(),
         firstName: $("#firstName").val(),
         lastName: $("#lastName").val(),
+        email: $("#email").val(),
         description: $("#description").val(),
         statusId,
         time: getStringDate(new Date())
@@ -27,6 +27,55 @@
       // Update the wish list and the sum DOM elements
       //href="javascript:;" got something to do in javascript when link is clicked
     });
+
+    //QR code generate
+
+    function makeCode() {
+      if (!$("#studentId").val()) {
+        //
+      } else {
+        let ip = "";
+        socket.emit("getCipher", $("#studentId").val());
+        socket.on("cipher", ciphertext => {
+          new QRCode(document.getElementById("qrcode"), {
+            text: ip + ":3000/display/" + ciphertext,
+            width: 128,
+            height: 128,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+          });
+        });
+
+        console.log("complete");
+      }
+    }
+    $("#studentId")
+      .on("blur", () => {
+        if (!$("#studentId").val()) {
+          alert("Please enter Student ID");
+          // } else if ($("#studentId").val() != 10) {
+          //   alert("Please enter correct Student ID");
+        } else {
+          makeCode();
+        }
+      })
+      .on("keydown", e => {
+        if (e.keycode == 13) {
+          if (!$("#studentId").val()) {
+            alert("Please enter Student ID");
+            // } else if (
+            //   $("#studentId")
+            //     .val()
+            //     .toString() != 10
+            // ) {
+            //   alert("Please enter correct Student ID");
+          } else {
+            makeCode();
+          }
+        }
+      });
+    //QR Code generate
 
     getStringDay = date => {
       let day;

@@ -23,6 +23,7 @@
           $(`${"#" + key}`).val(`${issueTemp[key]}`); //OK
         }
       }
+      makeCode();
     });
 
     // $("#butt").on("click", function() {
@@ -50,6 +51,7 @@
         studentId: $("#studentId").val(),
         firstName: $("#firstName").val(),
         lastName: $("#lastName").val(),
+        email: $("#email").val(),
         description: $("#description").val(),
         statusId: $('input[name="status"]:checked').val() || statusId,
         time: issueTemp.time
@@ -65,6 +67,39 @@
       //href="javascript:;" got something to do in javascript when link is clicked
       window.history.back();
     });
+
+    //QR code generate
+
+    let makeCode = function() {
+      if (!$("#studentId").val()) {
+        //
+      } else {
+        let ip = "";
+        socket.emit("getCipher", $("#studentId").val());
+        socket.on("cipher", ciphertext => {
+          new QRCode(document.getElementById("qrcode"), {
+            text: ip + ":3000/display/" + ciphertext,
+            width: 128,
+            height: 128,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+          });
+        });
+
+        console.log("complete");
+      }
+    };
+    $("#studentId").on("blur", () => {
+      if (!$("#studentId").val()) {
+        alert("Please enter Student ID");
+        // } else if ($("#studentId").val() != 10) {
+        //   alert("Please enter correct Student ID");
+      } else {
+        makeCode();
+      }
+    });
+    //QR Code generate
 
     getStringDay = date => {
       let day;
